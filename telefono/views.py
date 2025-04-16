@@ -1,5 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from .models import Contacto
+
+def lista_contactos(request):
+    contactos = Contacto.objects.all()
+    return render(request, 'lista_contactos.html', {'contactos': contactos})
+
+def agregar_contactos(request):
+    if request.method == 'POST':
+        nom = request.POST['nombre']
+        tel = request.POST['telefono']
+        em = request.POST['email']
+        Contacto.objects.create(nombre=nom, telefono=tel, email=em)
+        return redirect('lista_contactos')
+    return render(request, 'agregar_contacto.html')
+
+def editar_contacto(request, id):
+    contacto = get_object_or_404(Contacto, id=id)
+    if request.method == 'POST':
+        contacto.nombre = request.POST['nombre']
+        contacto.telefono = request.POST['telefono']
+        contacto.email = request.POST['email']
+        contacto.save()
+        return redirect('lista_contactos')
+    return render(request, 'editar_contactos.html')
+    
+def eliminar_contacto(request, id):
+    contacto = get_object_or_404(Contacto, id=id)
+    if request.method == 'POST':
+        contacto.delete()
+        return redirect('lista_contactos'), {'contacto': contacto}
+    return render(request, 'eliminar_contacto.html', {'contacto': contacto})    
 
 # Create your views here.
 def hola_mundo(request):

@@ -1,0 +1,13 @@
+<h1>LISTAR CONTACTOS</h1>
+<a href="{% url 'agregar_contactos' %}"> Agregar </a>
+
+<ul>
+    {% for contacto in contactos%}
+    <li>
+    {{ contacto.nombre}} - {{ contacto.telefono}} - {{contacto.email}}
+    <a href="{% url 'editar_contacto' contacto.id %}">Editar </a>
+    <a href="{% url 'eliminar_contacto' contacto.id %}">Eliminar </a>
+    </li>
+    {% endfor %}
+
+</ul>

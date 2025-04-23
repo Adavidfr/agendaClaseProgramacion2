@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Contacto
+from .forms import CustomUserCreationForm, ContactoForm
 
 def lista_contactos(request):
     contactos = Contacto.objects.all()
@@ -16,6 +17,17 @@ def agregar_contactos(request):
     return render(request, 'agregar_contacto.html')
 
 def editar_contacto(request, id):
+    if request.method == 'POST':
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            contacto = form.save()
+            return redirect('lista_contactos')
+    else:
+        contacto = get_object_or_404(Contacto, id=id)
+        form = ContactoForm(contacto)
+    return render(request, 'editar_contacto1.html', {'form': form, 'contacto': contacto})
+
+def editar_contacto_old(request, id):
     contacto = get_object_or_404(Contacto, id=id)
     if request.method == 'POST':
         contacto.nombre = request.POST['nombre']
@@ -27,10 +39,19 @@ def editar_contacto(request, id):
     
 def eliminar_contacto(request, id):
     contacto = get_object_or_404(Contacto, id=id)
+    contacto.delete()
+    return redirect('lista_contactos')
+
+def logear_usuario(request):
     if request.method == 'POST':
-        contacto.delete()
-        return redirect('lista_contactos'), {'contacto': contacto}
-    return render(request, 'eliminar_contacto.html', {'contacto': contacto})    
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_contactos')
+        else:
+            return render(request, 'login.html', {'form': form})
+    
+  
 
 # Create your views here.
 def hola_mundo(request):

@@ -1,0 +1,17 @@
+{%extends 'base.html'% }
+
+{% block titulo %}Editar Contacto{% endblock %}
+
+{% block cuerpo %}
+
+    <form method="POST">
+        {% csrf_token %}
+        { {form.as_div} }
+        <button type="submit">Actualizar</button>
+    
+    </form>
+
+    {% endblock%}
+
+
+

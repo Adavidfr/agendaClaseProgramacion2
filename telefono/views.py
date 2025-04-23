@@ -24,7 +24,7 @@ def editar_contacto(request, id):
             return redirect('lista_contactos')
     else:
         contacto = get_object_or_404(Contacto, id=id)
-        form = ContactoForm(contacto)
+        form = ContactoForm(instance=contacto)
     return render(request, 'editar_contacto1.html', {'form': form, 'contacto': contacto})
 
 def editar_contacto_old(request, id):

@@ -1,17 +1,17 @@
-{%extends 'base.html'% }
+{% extends 'base.html' %}
 
-{% block titulo %}Editar Contacto{% endblock %}
+{% block titulo %}
+    Editar Contacto
+{% endblock %}
 
 {% block cuerpo %}
-
-    <form method="POST">
-        {% csrf_token %}
-        { {form.as_div} }
-        <button type="submit">Actualizar</button>
-    
-    </form>
-
-    {% endblock%}
-
-
-
+    <div class="container mt-4">
+        <h2 class="mb-4">Editar Contacto</h2>
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a href="{% url 'lista_contactos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

@@ -9,3 +9,10 @@ class Contacto(models.Model):
     
     def __str__(self):
         return f"{self.nombre} - {self.telefono} - {self.email}"
+    
+    class Meta:
+        permissions = (
+            ('puede_ver_contactos', 'Ver contactos'),
+            ('puede_escribir_contactos', 'Escribir contactos')   
+        )
+        

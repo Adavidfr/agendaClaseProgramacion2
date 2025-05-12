@@ -14,20 +14,23 @@ def agregar_contactos(request):
         nom = request.POST['nombre']
         tel = request.POST['telefono']
         em = request.POST['email']
-        Contacto.objects.create(nombre=nom, telefono=tel, email=em)
+        ft = request.FILES.get('foto')
+        Contacto.objects.create(nombre=nom, telefono=tel, email=em,  foto = ft)
         return redirect('lista_contactos')
     return render(request, 'agregar_contacto.html')
 
 def editar_contacto(request, id):
+    contacto = get_object_or_404(Contacto, id=id)
+    
     if request.method == 'POST':
-        form = ContactoForm(request.POST)
+        form = ContactoForm(request.POST, request.FILES, instance=contacto)
         if form.is_valid():
-            contacto = form.save()
+            form.save()
             return redirect('lista_contactos')
     else:
-        contacto = get_object_or_404(Contacto, id=id)
         form = ContactoForm(instance=contacto)
-    return render(request, 'editar_contacto1.html', {'form': form, 'contacto': contacto})
+    
+    return render(request, 'editar_contacto.html', {'form': form})
 
 def editar_contacto_old(request, id):
     contacto = get_object_or_404(Contacto, id=id)

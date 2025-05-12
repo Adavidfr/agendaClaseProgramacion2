@@ -1,8 +1,7 @@
 
-
 <h1>EDITAR CONTACTOS</h1>
 
-<form method='POST'>
+<form method="POST" encytype="multipart/form-data">
     {% csrf_token %}
     <label>Nombre: </label> <input type="text" name="nombre"> <br/>
     <label>Telefono: </label> <input type="text" name="telefono"> <br/>
